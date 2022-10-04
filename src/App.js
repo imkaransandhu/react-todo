@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Header from "./components/Header";
+import TaskField from "./components/TaskField";
+import TaskListWrapper from "./components/TaskList/TaskListWrapper";
 
-function App() {
+const App = () => {
+  const [tasksArray, setTasksArray] = useState([]);
+  const addTaskToArray = (task) => {
+    setTasksArray([...tasksArray, task]);
+  };
+
+  const updateTaskToArray = (task, id) => {
+    let oldArray = tasksArray;
+    let index = oldArray.findIndex((object) => {
+      return object.taskNumber === id;
+    });
+    oldArray[index].taskName = task;
+    setTasksArray(oldArray);
+  };
+
+  const deleteTask = (e) => {
+    let idOflistTodelete = e.target.parentNode.parentNode.id;
+    let customArray = tasksArray;
+
+    customArray = customArray.filter(
+      (list) => list.taskNumber !== +idOflistTodelete
+    );
+
+    setTasksArray(customArray);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container mx-auto max-w-md p-4 border-2 mt-20">
+      <Header />
+      <TaskField addTaskToArray={addTaskToArray} />
+      <TaskListWrapper
+        tasksArray={tasksArray}
+        updateTaskToArray={updateTaskToArray}
+        deleteTask={deleteTask}
+      />
     </div>
   );
-}
+};
 
 export default App;
