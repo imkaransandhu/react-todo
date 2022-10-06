@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-const TaskField = ({ addTaskToArray }) => {
+const TaskField = ({ addTaskToArray, existingEntries }) => {
   const [task, setTask] = useState("");
-  const [taskNumber, setTaskNumber] = useState(1);
+  const [taskNumber, setTaskNumber] = useState(existingEntries.length);
   const changeTask = (e) => setTask(e.target.value);
   const submitTask = (e) => {
     e.preventDefault();
